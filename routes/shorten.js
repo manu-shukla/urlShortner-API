@@ -9,20 +9,24 @@ router.post("/", checkToken, async (req, res) => {
 
   try {
     const saveUrl = await Url.create({ url, shortner });
-    res
-      .status(201)
-      .json({
-        msg: "Url Shortened!",
-        shortUrl: `${req.get("host")}/s/${saveUrl.shortner}`,
-        url: saveUrl.url,
-      });
+    res.status(201).json({
+      msg: "Url Shortened!",
+      shortUrl: `${req.get("host")}/s/${saveUrl.shortner}`,
+      url: saveUrl.url,
+    });
   } catch (error) {
-    console.log(error);
-    res.status(401).json(error);
+    if (error.code == 11000) {
+      res.status(401).json({
+        msg: "Shortner Not Available! Try Something else.",
+        url,
+        shortner,
+      });
+    } else {
+      res
+        .status(401)
+        .json({ msg: "Invalid URL or internal server Error", url, shortner });
+    }
   }
 });
 
-
-
-
-module.exports  = router;
+module.exports = router;

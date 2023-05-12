@@ -1,16 +1,17 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const cookieParser = require("cookie-parser");
+const dotenv  = require("dotenv");
 const tokenRoutes = require("./routes/token");
 const hitToken = require("./routes/hitToken")
 const shorten = require("./routes/shorten");
 const unshorten = require("./routes/unshorten");
 
 const app = express();
+dotenv.config();
 
 app.use(express.json());
 
-const dbURI = "mongodb://localhost:27017/Api";
+const dbURI = process.env.MONGODB_URI;
 
 mongoose
   .connect(dbURI, {
