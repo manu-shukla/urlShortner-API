@@ -23,7 +23,9 @@ mongoose
     console.log("Server is running");
   })
   .catch((err) => console.log(err));
-
+app.get("/", (req, res)=>{
+  res.status(201).json({msg : "Api is Up & Working!"});
+})
 app.use("/token", tokenRoutes);
 app.use("/request", hitToken);
 app.use("/shorten", shorten);
